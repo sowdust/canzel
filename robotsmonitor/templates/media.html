@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}
+	Media {{ media.name }}
+{% endblock %}
+{% block content %}
+<div class="row">
+	<div class="col">
+		<div class="card">
+			<div class="card-header">
+        <h4>{{ media.name }} <img src="{{ media.country.flag }}"></h4>
+			</div>
+			<div class="card-body">
+        <div class="row">
+          <div class="col">
+            <img src="{{ media.logo.url }}" class="img-fluid img-thumbnail" alt="{{ media.name }} logo">          
+          </div>
+          <div class="col">
+            <ul class="list-group">
+              <li class="list-group-item"><span class="text-muted">Country:</span> {{ media.country }}</li>
+              <li class="list-group-item"><span class="text-muted">Added:</span>{{ media.inserted_at }}</li>
+              <li class="list-group-item"><span class="text-muted">Homepage:</span><a href="{{ media.homepage }}">{{ media.homepage }}</a></li>
+            </ul>          
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <p><blockquote class="blockquote">{{ media.description }}</blockquote>  </p>
+          </div>
+        </div>			
+			</div>
+		</div>
+	</div>
+</div>
+<div class="table-responsive">
+<table class="sortable-theme-bootstrap table" data-sortable>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">URL</th>
+      <th scope="col">Inserted</th>
+      <th scope="col">Status Code</th>
+      <th scope="col">Archive 1</th>
+      <th scope="col">Archive 2</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for entry in entries %}
+    <tr>
+      <th scope="row">{{ entry.id }}</th>
+      <td><a href="{% url 'robots_entry' entry.id %}">{{ entry.content }}</a></td>
+      <td>{{ entry.inserted_at }}</td>
+      <td>{{ entry.status_code }}</td>
+      <td>{{ entry.archive_time }}</td>
+      <td>{{ entry.archive_oldest_time }}</td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

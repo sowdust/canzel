@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}
+	Monitored Media
+{% endblock %}
+{% block content %}
+<div class="row">
+	<div class="col">
+		<div class="card">
+			<div class="card-header">
+				<h3>Monitored websites</h3> 
+			</div>
+		</div>
+	</div>
+</div>
+<div class="table-responsive">
+    <table class="sortable-theme-bootstrap table" data-sortable>
+          <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Country</th>
+          <th scope="col">Logo</th>
+          <th scope="col">Name</th>
+          <th scope="col">Homepage</th>
+          <th scope="col">Entries</th>
+          <th scope="col">Since</th>
+        </tr>
+      </thead>
+      <tbody>
+    {% for media in medias %}
+        <tr>
+          <th scope="row" class="align-middle">{{ media.id }}</th>
+          <td class="align-middle"><img src="{{ media.country.flag }}"></td>
+          <td class="align-middle"><img src="{{ media.logo.url }}" class="img-fluid img-thumbnail rounded" width="80px"></td>
+          <td class="align-middle"><a href="{% url 'media' media.slug %}">{{ media.name }}</a></td>
+          <td class="align-middle">{{ media.homepage }}</a></td>
+          <td class="align-middle">{{ media.robots_entries.count }}</td>
+          <td class="align-middle">{{ media.inserted_at }}</td>
+        </tr>
+    {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% endblock %}
