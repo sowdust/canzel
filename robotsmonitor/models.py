@@ -41,7 +41,7 @@ class Media(models.Model):
     homepage = models.URLField(max_length=2048, help_text='Media homepage URL')
     base_url = models.URLField(max_length=2048, help_text='Media base URL')
     slug = AutoSlugField(populate_from='name')
-    logo = models.ImageField(upload_to='logos/', null=True, blank=True)
+    logo = models.ImageField(upload_to='logos/')
     description = models.TextField(null=True, blank=True)
     disclaimer_button_xpath = models.CharField(max_length=255,
                                                help_text='XPath of the button/link to click to remove privacy disclaimer',
