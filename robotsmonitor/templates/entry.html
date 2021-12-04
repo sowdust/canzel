@@ -11,17 +11,24 @@
 			</div>
 			<div class="card-body">
 				<ul class="list-group">
+					<li class="list-group-item"><span class="text-muted">Website:</span>
+						<a href="{{ entry.media.get_absolute_url }}">{{ entry.media.name }}</a>
+					</li>
 					<li class="list-group-item"><span class="text-muted">URL:</span> {{ entry.content }}</li>
 					<li class="list-group-item"><span class="text-muted">HTTP Status:</span> {{ entry.status_code }}</li>
 					<li class="list-group-item"><span class="text-muted">Inserted:</span> {{ entry.inserted_at }}</li>
 					{% if entry.archive_url %}
-					<li class="list-group-item"><span class="text-muted">Archive URL:</span> <a href="{{ entry.archive_url }}" name="{{ entry.archive_oldest_url }}">{{ entry.archive_url|truncatechars:100 }}</a></li>
+					<li class="list-group-item"><span class="text-muted">Archive URL:</span>
+						<a href="{{ entry.archive_url }}" name="{{ entry.archive_oldest_url }}">{{ entry.archive_url|truncatechars:100 }}</a>
+					</li>
 					{% endif %}
 					{% if entry.archive_time %}
 					<li class="list-group-item"><span class="text-muted">Archive Time:</span> {{ entry.archive_time }}</li>
 					{% endif %}
 					{% if entry.archive_oldest_url %}
-					<li class="list-group-item"><span class="text-muted">Oldest archived URL:</span> <a href="{{ entry.archive_oldest_url }}" name="{{ entry.archive_oldest_url }}">{{ entry.archive_oldest_url|truncatechars:100 }}</a></li>
+					<li class="list-group-item"><span class="text-muted">Oldest archived URL:</span>
+						<a href="{{ entry.archive_oldest_url }}" name="{{ entry.archive_oldest_url }}">{{ entry.archive_oldest_url|truncatechars:100 }}</a>
+					</li>
 					{% endif %}
 					<li class="list-group-item"><a class="btn btn-dark" href="{{ entry.url }}" role="button">Visit online page</a></li>
 				</ul>				
@@ -29,7 +36,9 @@
 			{% if entry.screenshot %}
 			<div class="d-flex justify-content-center">
 				<figure class="figure">
-					<a href="{{ entry.screenshot.url }}"><img src="{{ entry.screenshot.url }}" class="img-fluid img-thumbnail" alt="Responsive image"></a>
+					<a href="{{ entry.screenshot.url }}">
+						<img src="{{ entry.screenshot.url }}" class="img-fluid img-thumbnail" alt="Responsive image">
+					</a>
 					<figcaption class="figure-caption">Screenshot of the page as it appeared on {{ entry.inserted_at }}.</figcaption>
 				</figure>
 			</div>

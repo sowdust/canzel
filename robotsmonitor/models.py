@@ -20,7 +20,8 @@ def parse_rules(text):
     rules = []
     status = 0
     for line in text.split('\n'):
-        if re.match('\s*User-agent\s*:\s+\*\s*', line):
+#       if re.match('\sUser-agent\s*:\s+\*\s*', line):
+        if re.match('.*User-agent\s*:\s+\*\s*', line):
             status = 1
         else:
             if (status == 1):
@@ -48,7 +49,7 @@ class Media(models.Model):
     inserted_at = models.DateTimeField(auto_now_add=True)
 
     def get_absolute_url(self):
-        return reverse('media', args=[self.id])
+        return reverse('media', args=[self.slug])
 
     def get_live_entries(self):
         robots_url = self.base_url.rstrip('/') + '/robots.txt'
