@@ -21,7 +21,7 @@ def parse_rules(text):
     status = 0
     for line in text.split('\n'):
 #       if re.match('\sUser-agent\s*:\s+\*\s*', line):
-        if re.match('.*User-agent\s*:\s+\*\s*', line):
+        if re.match('.*User-[Aa]gent\s*:\s+\*\s*', line):
             status = 1
         else:
             if (status == 1):
