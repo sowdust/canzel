@@ -11,13 +11,13 @@ django.setup()
 
 from robotsmonitor.models import Media, RobotsEntry
 
-logging.info("Updating robots.txt rules")
+#logging.info("Updating robots.txt rules")
 
 medias = Media.objects.all()
 for m in medias:
     logging.info("[%s] Updating robots entries..." % m.name)
-    print("[%s] Updating robots entries..." % m.name)
     new_entries = m.compare_entries()
+    if new_entries > 0:
+        logging.info('Found %d new entries for %s' % (new_entries, m.name))
+        print('Found %d new entries for %s' % (new_entries, m.name))
     logging.info("[%s] Added %d new entries" % (m.name, new_entries))
-    print("[%s] Added %d new entries" % (m.name, new_entries))
-
