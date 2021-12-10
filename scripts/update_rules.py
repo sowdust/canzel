@@ -13,7 +13,7 @@ from robotsmonitor.models import Media, RobotsEntry
 
 #logging.info("Updating robots.txt rules")
 
-medias = Media.objects.all()
+medias = Media.objects.filter(enabled=True)
 for m in medias:
     logging.info("[%s] Updating robots entries..." % m.name)
     new_entries = m.compare_entries()

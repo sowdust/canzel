@@ -47,6 +47,7 @@ class Media(models.Model):
                                                help_text='XPath of the button/link to click to remove privacy disclaimer',
                                                default='//button[normalize-space()="Agree"]')
     inserted_at = models.DateTimeField(auto_now_add=True)
+    enabled = models.BooleanField(default=True)
 
     def get_absolute_url(self):
         return reverse('media', args=[self.slug])
