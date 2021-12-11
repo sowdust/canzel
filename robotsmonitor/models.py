@@ -11,7 +11,7 @@ import time
 import re
 import os
 
-OK_STATUS_CODES = [200]
+OK_STATUS_CODES = [200, 201, 202, 203, 204]
 
 logger = logging.getLogger(__name__)
 
