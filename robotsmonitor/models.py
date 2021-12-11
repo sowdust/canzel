@@ -77,7 +77,7 @@ class Media(models.Model):
                 # t.start()
                 entry.take_screenshot()
             if r.status_code in OK_STATUS_CODES and settings.ARCHIVE:
-                t = threading.Thread(target=RobotsEntry.archive, args=(entry,))
+                t = threading.Thread(target=RobotsEntry.archive, args=(entry,r.status_code in OK_STATUS_CODES,))
                 t.start()
                 t.join()
             if r.status_code in OK_STATUS_CODES and settings.STORE_HTML:
@@ -172,17 +172,18 @@ class RobotsEntry(models.Model):
         self.save()
         driver.quit()
 
-    def archive(self):
+    def archive(self, must_archive=False):
         import waybackpy
         wayback = waybackpy.Url(self.url(), settings.ARCHIVE_USERAGENT)
-        logger.info("Archiving page %s" % self.url())
-        archive = wayback.save()
-        self.archive_url = archive.archive_url
-        self.archive_time = archive.timestamp
+        logger.info("Getting archive links for page %s" % self.url())
         oldest_archive = wayback.oldest()
         self.archive_oldest_url = oldest_archive.archive_url
         self.archive_oldest_time = oldest_archive.timestamp
-        logger.info("Archived at page %s" % self.archive_url)
+        if must_archive:
+            archive = wayback.save()
+            self.archive_url = archive.archive_url
+            self.archive_time = archive.timestamp
+            logger.info("Archived at page %s" % self.archive_url)
         self.save()
 
     def store_html(self, html):
@@ -201,7 +202,7 @@ class RobotsEntry(models.Model):
         try:
             status = "The media %s has added a new entry to its robots: %s %s" % (
             self.media, self.url(), settings.BASE_URL.rstrip('/') + self.get_absolute_url())
-            if self.screenshot.path is not None:
+            if self.screenshot:
                 posted_status = api.update_status_with_media(status, self.screenshot.path)
                 logger.info("Posting status %s with media" % (status, self.screenshot.path))
             else:
