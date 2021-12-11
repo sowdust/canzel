@@ -200,8 +200,8 @@ class RobotsEntry(models.Model):
         auth.set_access_token(settings.TWITTER_ACCESS_TOKEN, settings.TWITTER_ACCESS_TOKEN_SECRET)
         api = tweepy.API(auth)
         try:
-            status = "The media %s has added a new entry to its robots: %s %s" % (
-            self.media, self.url(), settings.BASE_URL.rstrip('/') + self.get_absolute_url())
+            status = "The media %s has added a new entry to its robots: %s %s [status code: %d]" % (
+            self.media, self.url(), settings.BASE_URL.rstrip('/') + self.get_absolute_url(), self.status_code)
             if self.screenshot:
                 posted_status = api.update_status_with_media(status, self.screenshot.path)
                 logger.info("Posting status %s with media" % (status, self.screenshot.path))
