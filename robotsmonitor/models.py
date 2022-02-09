@@ -123,7 +123,7 @@ class RobotsEntry(models.Model):
     title = models.CharField(max_length=2048, help_text='News Title')
 
     def url(self):
-        return self.media.base_url.rstrip('/') + self.content
+        return self.media.base_url.rstrip('/') + self.content.strip()
 
     def get_absolute_url(self):
         return reverse('robots_entry', args=[self.id])
