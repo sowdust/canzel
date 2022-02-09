@@ -71,16 +71,17 @@ class Media(models.Model):
         entry.save()
         try:
             r = requests.get(self.base_url.rstrip('/') + content)
+            # for some reason status code is always 404 ??
             entry.set_status_code(r.status_code)
-            if r.status_code in OK_STATUS_CODES and settings.SCREENSHOT:
+            if r.status_code in OK_STATUS_CODES and settings.SCREENSHOT or True:
                 # t = threading.Thread(target=RobotsEntry.screenshot, args=(entry,))
                 # t.start()
                 entry.take_screenshot()
-            if r.status_code in OK_STATUS_CODES and settings.ARCHIVE:
+            if r.status_code in OK_STATUS_CODES and settings.ARCHIVE or True:
                 t = threading.Thread(target=RobotsEntry.archive, args=(entry,r.status_code in OK_STATUS_CODES,))
                 t.start()
                 t.join()
-            if r.status_code in OK_STATUS_CODES and settings.STORE_HTML:
+            if r.status_code in OK_STATUS_CODES and settings.STORE_HTML or True:
                 entry.store_html(r.text)
             if settings.TWITTER_NOTIFICATIONS:
                 entry.twitter_notify()
@@ -119,6 +120,7 @@ class RobotsEntry(models.Model):
     # screenshot_path = models.CharField(max_length=2049, null=True, blank=True)
     inserted_at = models.DateTimeField(auto_now_add=True)
     html = models.TextField(null=True, blank=True, help_text='HTML of the page')
+    title = models.CharField(max_length=2048, help_text='News Title')
 
     def url(self):
         return self.media.base_url.rstrip('/') + self.content
@@ -127,7 +129,7 @@ class RobotsEntry(models.Model):
         return reverse('robots_entry', args=[self.id])
 
     def set_status_code(self, status_code):
-        self.status_code = int(status_code)
+        self.status_code = status_code
         self.save()
 
     def take_screenshot(self):
@@ -188,6 +190,10 @@ class RobotsEntry(models.Model):
 
     def store_html(self, html):
         self.html = html
+        try:
+            self.title = re.findall('<title.*>\s*(.*)\s*<\/title>',html)[0]
+        except:
+            self.title = ''
         self.save()
 
     def __str__(self):
@@ -200,8 +206,8 @@ class RobotsEntry(models.Model):
         auth.set_access_token(settings.TWITTER_ACCESS_TOKEN, settings.TWITTER_ACCESS_TOKEN_SECRET)
         api = tweepy.API(auth)
         try:
-            status = "The media %s has added a new entry to its robots: %s %s [status code: %d]" % (
-            self.media, self.url(), settings.BASE_URL.rstrip('/') + self.get_absolute_url(), self.status_code)
+            status = "%s deindexed \"%s\": %s %s [status code: %d]" % (
+            self.title, self.media, self.url(), settings.BASE_URL.rstrip('/') + self.get_absolute_url(), self.status_code)
             if self.screenshot:
                 posted_status = api.update_status_with_media(status, self.screenshot.path)
                 logger.info("Posting status %s with media" % (status, self.screenshot.path))

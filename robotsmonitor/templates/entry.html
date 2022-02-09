@@ -14,6 +14,7 @@
 					<li class="list-group-item"><span class="text-muted">Website:</span>
 						<a href="{{ entry.media.get_absolute_url }}">{{ entry.media.name }}</a>
 					</li>
+					<li class="list-group-item"><span class="text-muted">Title:</span> {{ entry.title }}</li>
 					<li class="list-group-item"><span class="text-muted">URL:</span> {{ entry.content }}</li>
 					<li class="list-group-item"><span class="text-muted">HTTP Status:</span> {{ entry.status_code }}</li>
 					<li class="list-group-item"><span class="text-muted">Inserted:</span> {{ entry.inserted_at }}</li>
