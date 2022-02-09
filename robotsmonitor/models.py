@@ -70,7 +70,7 @@ class Media(models.Model):
             content=content)
         entry.save()
         try:
-            r = requests.get(self.base_url.rstrip('/') + content)
+            r = requests.get(self.base_url.rstrip('/') + content.strip())
             # for some reason status code is always 404 ??
             entry.set_status_code(r.status_code)
             if r.status_code in OK_STATUS_CODES and settings.SCREENSHOT or True:
