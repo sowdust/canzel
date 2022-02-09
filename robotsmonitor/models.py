@@ -217,7 +217,7 @@ class RobotsEntry(models.Model):
         api = tweepy.API(auth)
         try:
             status = "%s deindexed \"%s\": %s %s [status code: %d]" % (
-            self.title, self.media, self.url(), settings.BASE_URL.rstrip('/') + self.get_absolute_url(), self.status_code)
+            self.media, self.title, self.url(), settings.BASE_URL.rstrip('/') + self.get_absolute_url(), self.status_code)
             if self.screenshot:
                 posted_status = api.update_status_with_media(status, self.screenshot.path)
                 logger.info("Posting status %s with media" % (status, self.screenshot.path))
