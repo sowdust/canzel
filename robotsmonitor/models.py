@@ -154,7 +154,13 @@ class RobotsEntry(models.Model):
         driver = webdriver.Chrome(service=Service(settings.CHROME_WEBDRIVER_PATH), options=options)
         logger.info('Taking screenshot of %s, saving it to %s' % (url, path))
         print('Taking screenshot of %s, saving it to %s' % (url, path))
-        driver.get(url)
+        try:
+            driver.get(url)
+        except Exception as ex:
+            logger.error('Error when taking screenshot of %s' % url)
+            logger.error(ex)
+            driver.quit()
+            return
         time.sleep(1)
         try:
             accept_button = driver.find_element_by_xpath(self.media.disclaimer_button_xpath)
