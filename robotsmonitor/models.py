@@ -67,21 +67,21 @@ class Media(models.Model):
     def add_entry(self, content):
         entry = RobotsEntry(
             media=self,
-            content=content)
+            content=content.strip())
         entry.save()
         try:
-            r = requests.get(self.base_url.rstrip('/') + content.strip())
+            r = requests.get(self.url())
             # for some reason status code is always 404 ??
             entry.set_status_code(r.status_code)
-            if r.status_code in OK_STATUS_CODES and settings.SCREENSHOT or True:
+            if r.status_code in OK_STATUS_CODES and settings.SCREENSHOT:
                 # t = threading.Thread(target=RobotsEntry.screenshot, args=(entry,))
                 # t.start()
                 entry.take_screenshot()
-            if r.status_code in OK_STATUS_CODES and settings.ARCHIVE or True:
+            if r.status_code in OK_STATUS_CODES and settings.ARCHIVE:
                 t = threading.Thread(target=RobotsEntry.archive, args=(entry,r.status_code in OK_STATUS_CODES,))
                 t.start()
                 t.join()
-            if r.status_code in OK_STATUS_CODES and settings.STORE_HTML or True:
+            if r.status_code in OK_STATUS_CODES and settings.STORE_HTML:
                 entry.store_html(r.text)
             if settings.TWITTER_NOTIFICATIONS:
                 entry.twitter_notify()
