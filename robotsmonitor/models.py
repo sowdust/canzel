@@ -168,16 +168,20 @@ class RobotsEntry(models.Model):
         except Exception as ex:
             logger.error(ex)
         time.sleep(1)
-        required_width = driver.execute_script('return document.body.parentNode.scrollWidth')
-        required_height = driver.execute_script('return document.body.parentNode.scrollHeight')
-        driver.set_window_size(required_width, required_height)
-        el = driver.find_element_by_tag_name('body')
-        el.screenshot(path)
-        self.screenshot.save(
-            os.path.basename('%d.png' % self.id),
-            File(open(path, 'rb'))
-        )
-        self.save()
+        try:
+            required_width = driver.execute_script('return document.body.parentNode.scrollWidth')
+            required_height = driver.execute_script('return document.body.parentNode.scrollHeight')
+            driver.set_window_size(required_width, required_height)
+            el = driver.find_element_by_tag_name('body')
+            el.screenshot(path)
+            self.screenshot.save(
+                os.path.basename('%d.png' % self.id),
+                File(open(path, 'rb'))
+            )
+            self.save()
+        except Exception as ex:
+            logger.error('Error while taking screenshot of %s' % url)
+            logger.error(ex)
         driver.quit()
 
     def archive(self, must_archive=False):
