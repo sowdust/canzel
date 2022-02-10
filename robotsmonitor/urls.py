@@ -8,5 +8,5 @@ urlpatterns = [
     path('website/<slug:slug>/', views.media, name='media'),
     path('entry/<int:entry_id>/', views.robots_entry, name='robots_entry'),
     path('about/', views.about, name='about'),
-    path('feed/', LatestEntriesFeed()),
+    path('feed/rss/', LatestEntriesFeed(), name='rss'),
 ]

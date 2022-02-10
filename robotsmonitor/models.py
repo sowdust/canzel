@@ -1,4 +1,5 @@
 from django_countries.fields import CountryField
+from django.contrib.syndication.views import Feed
 from django.conf import settings
 from django.urls import reverse
 from django.db import models
@@ -227,8 +228,6 @@ class RobotsEntry(models.Model):
         except Exception as ex:
             logger.error(ex)
 
-
-from django.contrib.syndication.views import Feed
 
 class LatestEntriesFeed(Feed):
     title = "Canzel.club Feed"
