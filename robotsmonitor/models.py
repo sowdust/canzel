@@ -226,3 +226,21 @@ class RobotsEntry(models.Model):
             logger.info("Posted status %s" % posted_status.id)
         except Exception as ex:
             logger.error(ex)
+
+
+from django.contrib.syndication.views import Feed
+
+class LatestEntriesFeed(Feed):
+    title = "Canzel.club Feed"
+    link = "/"
+    description = "Latest de-indexed articles."
+
+    def items(self):
+        return RobotsEntry.objects.order_by('-inserted_at')[:20]
+
+    def item_title(self, item):
+        return item.title
+
+    def item_description(self, item):
+        return item.url()
+
