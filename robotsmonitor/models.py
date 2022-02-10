@@ -67,7 +67,7 @@ class Media(models.Model):
     def add_entry(self, content):
         entry = RobotsEntry(
             media=self,
-            content=content.strip())
+            content=content)
         entry.save()
         try:
             r = requests.get(self.base_url.rstrip('/') + content.strip())
@@ -94,8 +94,8 @@ class Media(models.Model):
         new_entries = self.get_live_entries()
         c = 0
         for rule in new_entries:
-            if rule not in list(old_entries):
-                self.add_entry(rule)
+            if rule.strip() not in list(old_entries):
+                self.add_entry(rule.strip())
                 c += 1
         return c
 
