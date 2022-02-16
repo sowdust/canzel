@@ -1,0 +1,7 @@
+django
+django-countries
+django-autoslug
+pillow
+waybackpy
+selenium
+tweepy
