@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}
+	Monitored Media
+{% endblock %}
+{% block content %}
+<div class="row">
+	<div class="col">
+		<div class="card">
+			<div class="card-header">
+				<h3>Search Entries</h3> 
+			</div>
+      <div class="card-body">
+        <form action="{% url 'search' %}" method="post">
+        <div class="form-group">
+            {% csrf_token %}
+            <select name="field" class="form-control" >
+              <option value="title">title</option>
+              <option value="url">base url</option>
+              <option value="html">html code</option>
+            </select>
+          </div>
+          <div class="form-group">
+             <label for="text">Search text</label>
+            <input name="text" type="text" placeholder="Search..." class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="submit" name="SEARCH" class="btn btn-primary">
+          </div>
+        </form>        
+      </div>
+		</div>
+	</div>
+</div>
+{% endblock %}

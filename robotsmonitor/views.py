@@ -30,3 +30,23 @@ def robots_entry(request, entry_id):
 
 def about(request):
 	return render(request, 'about.html')
+
+def search(request):
+	if request.method == 'GET':
+		return render(request, 'search.html')
+
+	field = request.POST.get('field')
+	text = request.POST.get('text')
+	if field == 'title':
+		objects = RobotsEntry.objects.filter(title__contains=text)
+	elif field == 'url':
+		objects = RobotsEntry.objects.filter(content__contains=text)
+	elif field == 'html':
+		objects = RobotsEntry.objects.filter(html__contains=text)
+	else:
+		objects = []
+	paginator = Paginator(objects, 50)
+	page_number = request.GET.get('page')
+	page_obj = paginator.get_page(page_number)
+	return render(request, 'entries.html', {'entries': page_obj})
+

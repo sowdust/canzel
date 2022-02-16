@@ -42,7 +42,7 @@
     <header>
       <!-- Fixed navbar -->
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Canzel!</a>
+        <a class="navbar-brand" href="{% url 'index' %}">Canzel!</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -50,7 +50,7 @@
         <!-- menu principale --> 
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
             <li class="nav-item"><a class="nav-link" href="/websites">Websites</a></li>
             <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
             <li class="nav-item"><a class="nav-link" href="/docs/">Doc</a></li>
