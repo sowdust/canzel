@@ -1,8 +1,16 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
 from .models import Media, RobotsEntry
 
 def index(request):
 	return medias(request)
+
+def robots_entries(request):
+	entries = RobotsEntry.objects.all()
+	paginator = Paginator(entries, 50)
+	page_number = request.GET.get('page')
+	page_obj = paginator.get_page(page_number)
+	return render(request, 'entries.html', {'entries': page_obj})
 
 def medias(request):
 	medias = Media.objects.all()

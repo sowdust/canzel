@@ -31,7 +31,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <p><blockquote class="blockquote">{{ media.description }}</blockquote>  </p>
+            <blockquote class="blockquote">{{ media.description }}</blockquote>
           </div>
         </div>			
 			</div>
@@ -54,8 +54,8 @@
   <tbody>
 {% for entry in entries %}
     <tr>
-      <td>{{ entry.id }}</th>
-      <td>{{ entry.title }}</th>
+      <td>{{ entry.id }}</td>
+      <td>{{ entry.title }}</td>
       <td><a href="{% url 'robots_entry' entry.id %}">{{ entry.content }}</a></td>
       <td>{{ entry.inserted_at }}</td>
       <td>{{ entry.status_code }}</td>
