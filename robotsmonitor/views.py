@@ -6,7 +6,7 @@ def index(request):
 	return medias(request)
 
 def robots_entries(request):
-	entries = RobotsEntry.objects.all()
+	entries = RobotsEntry.objects.order_by('-inserted_at')
 	paginator = Paginator(entries, 50)
 	page_number = request.GET.get('page')
 	page_obj = paginator.get_page(page_number)
