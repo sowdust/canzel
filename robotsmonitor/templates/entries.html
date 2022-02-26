@@ -8,6 +8,7 @@
   <thead>
     <tr>
       <th scope="col">#</th>
+      <th scope="col">Media</th>
       <th scope="col">Title</th>
       <th scope="col">URL</th>
       <th scope="col">Inserted</th>
@@ -20,6 +21,7 @@
 {% for entry in entries %}
     <tr>
       <td>{{ entry.id }}</td>
+      <td>{{ entry.media.name }}</td>
       <td>{{ entry.title }}</td>
       <td><a href="{% url 'robots_entry' entry.id %}">{{ entry.content }}</a></td>
       <td>{{ entry.inserted_at }}</td>
