@@ -13,8 +13,27 @@ def robots_entries(request):
 	page_obj = paginator.get_page(page_number)
 	return render(request, 'entries.html', {'entries': page_obj})
 
+def robots_entries_country(request, country):
+	entries = RobotsEntry.objects.filter(media__country=country).order_by('-inserted_at')
+	paginator = Paginator(entries, 50)
+	page_number = request.GET.get('page')
+	page_obj = paginator.get_page(page_number)
+	return render(request, 'entries.html', {'entries': page_obj})
+
+def countries(request):
+	medias = Media.objects.all()
+	country_codes = medias.order_by().values_list('country', flat=True).distinct()
+	countries = [Country(code) for code in country_codes]
+	context = {'countries' : countries}
+	return render(request, 'countries.html', context)
+
 def medias(request):
 	medias = Media.objects.all()
+	context = {'medias' : medias}
+	return render(request, 'medias.html', context)
+
+def medias_country(request,country):
+	medias = Media.objects.filter(country=country)
 	context = {'medias' : medias}
 	return render(request, 'medias.html', context)
 
