@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}
+	Monitored Media
+{% endblock %}
+{% block content %}
+<div class="row">
+	<div class="col">
+		<div class="card">
+			<div class="card-header">
+				<h3>Countries</h3> 
+			</div>
+		</div>
+	</div>
+</div>
+<div class="table-responsive">
+    <table class="sortable-theme-bootstrap table" data-sortable>
+          <thead>
+        <tr>
+          <th scope="col">Flag</th>
+          <th scope="col">Code</th>
+          <th scope="col">Name</th>
+          <th scope="col">Websites</th>
+          <th scope="col">Entries</th>
+          <th scope="col">RSS</th>
+        </tr>
+      </thead>
+      <tbody>
+    {% for country in countries %}
+        <tr>
+          <td class="align-middle"><img src="{{ country.flag }}"></td>
+          <td class="align-middle">{{ country.code }}</td>
+          <td class="align-middle">{{ country.name }}</td>
+          <td class="align-middle"><a href="{% url 'medias_country' country.code %}" title="See all media websites that are monitored for {{ country.name }}">See all websites</a></td>
+          <td class="align-middle"><a href="{% url 'entries_country' country.code %}" title="See all pages deindexed for all websites that are monitored for {{ country.name }}">See all entries</a></td>
+          <td class="align-middle"><a href="{% url 'country_feed' country.code %}" title="RSS for country {{country.name}}"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADEAAAANCAMAAAA3+nb4AAAApVBMVEX///8cliYjnComlywqly8mkyEnmTUkki0rlTc0kDsylzgukC1WqFgvmSUunzqByYoqkDSMv5AaniFBlkba+9K75cBdumttxXWz4LkijCk6iD1FqlGc16MoiztxtXi29K6i4Kr3/v46pEKlzKrK8dDu+O//+/+MsHu30bzA2cPg8+FTt1vG4crO6tH1+/X4/fn///7C1t/o9Or9+d3//Oz8/fz8/vzB9riFAAAAAXRSTlMAQObYZgAAAbFJREFUaN6VUVeyJDEIMwac2+6cpyenlzfe/2jrd4Qt/kAqIUmIMM9Ka2NtCVoBqQYwgpSkEWupLZE2pYsAynhl7SJE0FCDRIA6owpmZC4cZ4IC6R0DUlHTVOqMUXVGBuFJyrF7rr3z1jJ7s4/sGbSJgIBOMRYwSYkSwLAn3AkbEbf7uRuHk1Iks7hBqGN1/Pi6XU6QjrdrRfZwvL1srBzCTmilqQ/LtnapsQhR7xU5SamdrXmuzUfY9T+Xe+vMvTVaQ2ZQZnSHYQnrWJGsQXkACzpdZq3eUtMmBXMMbTLOloUvCi8ItavGbg392gWNZPdl1DVWx7+ff94Dvz5erkmVw+PYDvllCU6obK9sUlctw1tlGZRVaAuqXubXtkfpJmnbylmqT7+CPoEshZao0xZSty3nccfg9yanx6m1sm+b4dJP7n1I+2YKbYB8McJEyd0YwrNa0sFJiJ4AmNKlAXs+7NL19+cPbB63r2uFBUm2wjHCOIbmvIbhYDzab40Cp4brSLnNPPo7QiIDnPez2GxJ1ig0mgvjuYigmXxUuRU22ahBqaQjQE9KKih7Iar/Y4h/3rAgKyQD7WQAAAAASUVORK5CYII=">
+      </a></td>
+        </tr>
+    {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% endblock %}
