@@ -1,4 +1,4 @@
-from django_countries.fields import CountryField
+from django_countries.fields import CountryField, Country
 from django.contrib.syndication.views import Feed
 from django.conf import settings
 from django.urls import reverse
@@ -57,7 +57,10 @@ class Media(models.Model):
         robots_url = self.base_url.rstrip('/') + '/robots.txt'
         rules = []
         try:
-            r = requests.get(robots_url)
+            headers = {
+                'User-Agent' : settings.USERAGENT
+            }
+            r = requests.get(robots_url, headers=headers)
             if r.status_code not in OK_STATUS_CODES:
                 logger.error('Could not get robots page %s: received %d status code' % (robots_url, r.status_code))
             rules = parse_rules(r.text)
@@ -117,11 +120,11 @@ class RobotsEntry(models.Model):
     archive_oldest_url = models.URLField(max_length=2048, null=True, blank=True,
                                          help_text='URL of the oldest copy of the archived page')
     archive_oldest_time = models.DateTimeField(null=True, blank=True)
-    screenshot = models.ImageField(upload_to='screenshots/', null=True)
+    screenshot = models.ImageField(upload_to='screenshots/', null=True, blank=True)
     # screenshot_path = models.CharField(max_length=2049, null=True, blank=True)
     inserted_at = models.DateTimeField(auto_now_add=True)
     html = models.TextField(null=True, blank=True, help_text='HTML of the page')
-    title = models.CharField(max_length=2048, help_text='News Title')
+    title = models.CharField(max_length=2048, help_text='News Title', blank=True)
 
     def url(self):
         return self.media.base_url.rstrip('/') + self.content.strip()
@@ -187,7 +190,7 @@ class RobotsEntry(models.Model):
 
     def archive(self, must_archive=False):
         import waybackpy
-        wayback = waybackpy.Url(self.url(), settings.ARCHIVE_USERAGENT)
+        wayback = waybackpy.Url(self.url(), settings.USERAGENT)
         logger.info("Getting archive links for page %s" % self.url())
         oldest_archive = wayback.oldest()
         self.archive_oldest_url = oldest_archive.archive_url
@@ -243,3 +246,48 @@ class LatestEntriesFeed(Feed):
     def item_description(self, item):
         return item.url()
 
+
+class CountryFeed(Feed):
+    link = "/"
+
+    def get_object(self, request, country):
+        return Country(country)
+
+    def title(self, obj):
+        return "Canzel.club Feed %s" % obj.name
+
+    def description(self, obj):
+        return "Latest de-indexed articles for country %s" % obj.name
+
+    def items(self, obj):
+        return RobotsEntry.objects.filter(media__country=obj).order_by('-inserted_at')[:20]
+
+    def item_title(self, item):
+        return item.title
+
+    def item_description(self, item):
+        return item.url()
+
+
+class MediaFeed(Feed):
+
+    def get_object(self, request, media_slug):
+        return Media.objects.get(slug=media_slug)
+
+    def title(self, obj):
+        return "Canzel.club Feed %s" % obj.name
+
+    def description(self, obj):
+        return "Latest de-indexed articles for website %s" % obj.name
+
+    def link(self, obj):
+        return obj.get_absolute_url()
+
+    def items(self, obj):
+        return RobotsEntry.objects.filter(media=obj).order_by('-inserted_at')[:20]
+
+    def item_title(self, item):
+        return item.title
+
+    def item_description(self, item):
+        return item.url()

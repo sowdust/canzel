@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'sortable-0.8.0/css/sortable-theme-bootstrap.css' %}" />
-    <link rel="alternate" type="application/rss+xml" title="RSS feed for canzel.club" href="{% url 'rss' %}" />
+    <link rel="alternate" type="application/rss+xml" title="RSS feed for canzel.club" href="{% url 'all_feed' %}" />
     <script src="{% static 'sortable-0.8.0/js/sortable.min.js' %}"></script>
     <title>Monitor robots.txt files</title>
     <style>
@@ -36,6 +36,12 @@
       code {
         font-size: 80%;
       }
+
+      .rss_button { 
+         background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADEAAAANCAMAAAA3+nb4AAAApVBMVEX///8cliYjnComlywqly8mkyEnmTUkki0rlTc0kDsylzgukC1WqFgvmSUunzqByYoqkDSMv5AaniFBlkba+9K75cBdumttxXWz4LkijCk6iD1FqlGc16MoiztxtXi29K6i4Kr3/v46pEKlzKrK8dDu+O//+/+MsHu30bzA2cPg8+FTt1vG4crO6tH1+/X4/fn///7C1t/o9Or9+d3//Oz8/fz8/vzB9riFAAAAAXRSTlMAQObYZgAAAbFJREFUaN6VUVeyJDEIMwac2+6cpyenlzfe/2jrd4Qt/kAqIUmIMM9Ka2NtCVoBqQYwgpSkEWupLZE2pYsAynhl7SJE0FCDRIA6owpmZC4cZ4IC6R0DUlHTVOqMUXVGBuFJyrF7rr3z1jJ7s4/sGbSJgIBOMRYwSYkSwLAn3AkbEbf7uRuHk1Iks7hBqGN1/Pi6XU6QjrdrRfZwvL1srBzCTmilqQ/LtnapsQhR7xU5SamdrXmuzUfY9T+Xe+vMvTVaQ2ZQZnSHYQnrWJGsQXkACzpdZq3eUtMmBXMMbTLOloUvCi8ItavGbg392gWNZPdl1DVWx7+ff94Dvz5erkmVw+PYDvllCU6obK9sUlctw1tlGZRVaAuqXubXtkfpJmnbylmqT7+CPoEshZao0xZSty3nccfg9yanx6m1sm+b4dJP7n1I+2YKbYB8McJEyd0YwrNa0sFJiJ4AmNKlAXs+7NL19+cPbB63r2uFBUm2wjHCOIbmvIbhYDzab40Cp4brSLnNPPo7QiIDnPez2GxJ1ig0mgvjuYigmXxUuRU22ahBqaQjQE9KKih7Iar/Y4h/3rAgKyQD7WQAAAAASUVORK5CYII=')
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
     </style>
   </head>
   <body>
@@ -52,11 +58,13 @@
           <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
             <li class="nav-item"><a class="nav-link" href="/websites">Websites</a></li>
-            <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="/docs/">Doc</a></li>
-            <li class="nav-item"><a class="nav-link" href="https://github.com/sowdust/canzel">Code</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'rss' %}">RSS</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'rss_index' %}">RSS</a></li>
             <li class="nav-item"><a class="nav-link" href="https://twitter.com/canzelbot" name="Twitter Account">@canzelbot</a></li>
+          </ul>
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="/docs/">Documentation</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://github.com/sowdust/canzel">Code</a></li>
           </ul>
           <ul class="navbar-nav navbar-right nav">
               <li class="nav-item"><a class="nav-link" href="/admin">Admin</a></li>

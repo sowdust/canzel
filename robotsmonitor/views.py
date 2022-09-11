@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django_countries.fields import Country
 from django.core.paginator import Paginator
 from .models import Media, RobotsEntry
 
@@ -30,6 +31,13 @@ def robots_entry(request, entry_id):
 
 def about(request):
 	return render(request, 'about.html')
+
+def rss_index(request):
+	medias = Media.objects.all()
+	country_codes = medias.order_by().values_list('country', flat=True).distinct()
+	countries = [Country(code) for code in country_codes]
+	context = {'medias' : medias, 'countries' : countries}
+	return render(request, 'rss.html', context)
 
 def search(request):
 	if request.method == 'GET':
