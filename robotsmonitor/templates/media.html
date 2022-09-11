@@ -19,6 +19,7 @@
               <li class="list-group-item"><span class="text-muted">Country:</span> {{ media.country }}</li>
               <li class="list-group-item"><span class="text-muted">Added:</span> {{ media.inserted_at }}</li>
               <li class="list-group-item"><span class="text-muted">Homepage:</span> <a href="{{ media.homepage }}">{{ media.homepage }}</a></li>
+              <li class="list-group-item"><span class="text-muted">Deindexed URLs:</span> {{ media.entries.count }}</li>
               <li class="list-group-item">
                 {% if media.enabled %}
                 <span class="badge badge-success">ENABLED</span>
