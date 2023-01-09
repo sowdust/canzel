@@ -1,10 +1,20 @@
 from django.shortcuts import render, get_object_or_404
 from django_countries.fields import Country
 from django.core.paginator import Paginator
+from django.views.decorators.http import require_GET
+from django.http import HttpResponse
 from .models import Media, RobotsEntry
 
 def index(request):
 	return medias(request)
+
+@require_GET
+def robots_txt(request):
+    lines = [
+        "User-Agent: *",
+        "Disallow: *",
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
 
 def robots_entries(request):
 	entries = RobotsEntry.objects.order_by('-inserted_at')

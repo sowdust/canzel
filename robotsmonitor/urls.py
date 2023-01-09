@@ -5,6 +5,7 @@ from .models import LatestEntriesFeed, CountryFeed, MediaFeed
 urlpatterns = [
 #    path('', views.index, name='index'),
     path('', views.robots_entries, name='index'),
+    path("robots.txt", robots_txt, name='robots_txt'),
     path('websites/', views.medias, name='medias'),
     path('websites/country/<str:country>', views.medias_country, name='medias_country'),
     path('countries/', views.countries, name='countries'),
