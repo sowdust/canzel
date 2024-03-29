@@ -9,6 +9,7 @@ import threading
 import requests
 import logging
 import time
+import pytz
 import re
 import os
 
@@ -199,11 +200,11 @@ class RobotsEntry(models.Model):
         logger.info("Getting archive links for page %s" % self.url())
         oldest_archive = wayback.oldest()
         self.archive_oldest_url = oldest_archive.archive_url
-        self.archive_oldest_time = oldest_archive.timestamp
+        self.archive_oldest_time = pytz.utc.localize(oldest_archive.timestamp)
         if must_archive:
             archive = wayback.save()
             self.archive_url = archive.archive_url
-            self.archive_time = archive.timestamp
+            self.archive_time = pytz.utc.localize(archive.timestamp)
             logger.info("Archived at page %s" % self.archive_url)
         self.save()
 
