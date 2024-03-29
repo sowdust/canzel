@@ -171,7 +171,7 @@ class RobotsEntry(models.Model):
             logger.error(ex)
             driver.quit()
             return
-        time.sleep(1)
+        time.sleep(2)
         try:
             accept_button = driver.find_element_by_xpath(self.media.disclaimer_button_xpath)
             accept_button.click()
@@ -211,7 +211,8 @@ class RobotsEntry(models.Model):
     def store_html(self, html):
         self.html = html
         try:
-            self.title = re.findall('<title.*>\s*(.*)\s*<\/title>',html)[0]
+            title = re.findall('<title.*>\s*(.*)\s*<\/title>',html)[0]
+            self.title = t.encode('utf-8','ignore')
         except:
             self.title = ''
         self.save()
