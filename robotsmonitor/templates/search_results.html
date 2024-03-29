@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}
+	Latest entries
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <h3>Search Results</h3> 
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-responsive">
+<table class="sortable-theme-bootstrap table" data-sortable>
+  <thead>
+    <tr>
+      <th scope="col">Media</th>
+      <th scope="col">Title</th>
+      <th scope="col">URL</th>
+      <th scope="col">Inserted</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td colspan="5">
+            Found {{ count }} results for query <span class="font-monospace">{{ query }}</span> in {{ field }}.
+        </td>
+    </tr>
+{% for entry in entries %}
+    <tr>
+      <td>{{ entry.media.name }}</td>
+      <td>{{ entry.title }}</td>
+      <td><a href="{% url 'robots_entry' entry.id %}">{{ entry.content }}</a></td>
+      <td>{{ entry.inserted_at }}</td>
+      <td>{{ entry.status_code }}</td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+</div>
+<div class="pagination">
+    <span class="step-links">
+        {% if entries.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ entries.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ entries.number }} of {{ entries.paginator.num_pages }}.
+        </span>
+
+        {% if entries.has_next %}
+            <a href="?page={{ entries.next_page_number }}">next</a>
+            <a href="?page={{ entries.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

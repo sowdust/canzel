@@ -85,5 +85,6 @@ def search(request):
 	paginator = Paginator(objects, 50)
 	page_number = request.GET.get('page')
 	page_obj = paginator.get_page(page_number)
-	return render(request, 'entries.html', {'entries': page_obj})
+	return render(request, 'search_results.html',
+		{'entries': page_obj, 'count' : len(objects), 'query' : text, 'field' : field})
 
