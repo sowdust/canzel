@@ -212,7 +212,7 @@ class RobotsEntry(models.Model):
         self.html = html
         try:
             title = re.findall('<title.*>\s*(.*)\s*<\/title>',html)[0]
-            self.title = t.encode('utf-8','ignore')
+            self.title = title.encode('utf-8','ignore')
         except:
             self.title = ''
         self.save()
