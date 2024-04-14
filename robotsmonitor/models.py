@@ -211,8 +211,7 @@ class RobotsEntry(models.Model):
     def store_html(self, html):
         self.html = html
         try:
-            title = re.findall('<title.*>\s*(.*)\s*<\/title>',html)[0]
-            self.title = title.encode('utf-8','ignore')
+            self.title = re.findall('<title.*>\s*(.*)\s*<\/title>',html)[0]
         except:
             self.title = ''
         self.save()
