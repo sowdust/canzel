@@ -84,15 +84,15 @@ class Media(models.Model):
             entry.set_status_code(r.status_code)
             if r.status_code in OK_STATUS_CODES and settings.STORE_HTML:
                 entry.store_html(r.text)
-            if r.status_code in OK_STATUS_CODES and settings.SCREENSHOT:
-                # t = threading.Thread(target=RobotsEntry.screenshot, args=(entry,))
-                # t.start()
-                entry.take_screenshot()
             if settings.ARCHIVE:
                 #t = threading.Thread(target=RobotsEntry.archive, args=(entry,r.status_code in OK_STATUS_CODES,))
                 #t.start()
                 #t.join()
                 entry.archive(r.status_code in OK_STATUS_CODES)
+            if r.status_code in OK_STATUS_CODES and settings.SCREENSHOT:
+                # t = threading.Thread(target=RobotsEntry.screenshot, args=(entry,))
+                # t.start()
+                entry.take_screenshot()
             if settings.TWITTER_NOTIFICATIONS:
                 entry.twitter_notify()
         except Exception as ex:
