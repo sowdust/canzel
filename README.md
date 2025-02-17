@@ -4,6 +4,6 @@ When a new entry in a monitored robots.txt file is found, if it is currently onl
 
 An example istance is used to monitor the robots.txt files of some major European online newspapers to track articles that are being de-indexed.
 
-(Documentation)[https://canzel.club/docs/]
+Documentation: https://canzel.club/docs/
 
-(Canzel.club)[https://canzel.club/]
+Canzel.club: https://canzel.club/
